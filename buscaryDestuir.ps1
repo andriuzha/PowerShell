@@ -1,4 +1,4 @@
-# Este escript busca repartidos a lo largo de dos discos o directorios diferentes
+# Este escript busca archivos repartidos a lo largo de dos discos o directorios diferentes
 # Borrara tras una confirmación los archivos en la dirección original 
 # (Esto se puede editar facilmente, leer los comentarios)
 # @andriuzha
