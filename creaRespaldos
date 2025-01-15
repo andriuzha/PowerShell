@@ -1,0 +1,40 @@
+
+############################################################################
+# Script de copia de respaldos
+# Author: @andriuzha
+# Versión 1.0
+# 15 ene 2025
+# https://github.com/andriuzha/
+############################################################################
+
+
+# Definiendo la ruta de origen
+$origen = "C:\backup"
+
+# Obteniendo la ruta donde se encuentra el script (ruta de destino)
+$destino = Split-Path -Parent $MyInvocation.MyCommand.Path
+
+# Verificando si la carpeta de origen existe
+if (Test-Path $origen) {
+    # Crear el nombre de la carpeta de destino con el formato ddmmaaaa_backup
+    $fecha = Get-Date -Format "ddMMyyyy"
+    $nombreCarpetaDestino = "$fecha`_backup"
+    $rutaCompletaDestino = Join-Path -Path $destino -ChildPath $nombreCarpetaDestino
+
+    # Creando la carpeta de destino si no existe
+    if (-not (Test-Path $rutaCompletaDestino)) {
+        New-Item -Path $rutaCompletaDestino -ItemType Directory
+    }
+
+# Puedes optar por usar Robocopy (Recomendado) o Copy-Item Comentando y descomentando las líneas
+
+# Copiando la carpeta de origen al destino
+#    Copy-Item -Path $origen -Destination $rutaCompletaDestino -Recurse -Force
+
+# Usando robocopy para copiar los archivos
+    robocopy $origen $rutaCompletaDestino /MIR /R:3 /W:5 /LOG:$rutaCompletaDestino\respaldo.log
+
+    Write-Host "Copia completada. La carpeta de respaldo se ha guardado en: $rutaCompletaDestino"
+} else {
+    Write-Host "La carpeta de origen $origen no existe. Verifique la ruta."
+}
